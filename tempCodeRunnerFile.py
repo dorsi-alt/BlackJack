@@ -1,0 +1,2 @@
+
+                playerMoney = 0
