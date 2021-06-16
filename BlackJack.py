@@ -3,7 +3,7 @@ import time
 #importing need libraries
 
 #title line
-print("WELCOME TO BLACKJACK♠")
+print("WELCOME TO BLACKJACK♤♧♡♢")
 #sets default player money
 playerMoney = 1000
 
@@ -15,6 +15,7 @@ while(playerMoney > 0):
     dealerStand = False
     errorCheck = True
     errorCheck2 = True
+    dealerBust = False
     #empty players hand
     playerHand = []
     dealerHand = []
@@ -67,7 +68,7 @@ while(playerMoney > 0):
 
             #decides what to do if dealer draws an ace
             if x == "A":
-                if dealerTotal >= 10:
+                if dealerTotal <= 10:
                     dealerTotal += 11
 
                 else:
@@ -109,40 +110,17 @@ while(playerMoney > 0):
                 time.sleep(1.5)
                 print("You Win")
                 #gives you money
-                playerMoney = playerMoney + bet*2 + bet
+                playerMoney = playerMoney + bet*2
                 #breaks out of the current round
                 print("You Are Now At: ", playerMoney, "$")
-
                 break
-
-        elif dealerTotal == 17:
-            hos = random.randint(1,2)
-            if hos == 1:
-                print("Dealer hit")
-                time.sleep(1.5)
-                dealerHand.append(deck[0])
-                deck.remove(deck[0])
-                dealerTotalHand()
-                # checks if dealer is over 21
-                if dealerTotal > 21:
-                    print("The Dealer Busted")
-                    time.sleep(1.5)
-                    print("You Win")
-                    #gives you money
-                    playerMoney = playerMoney + bet*2 + bet
-                    print("You Are Now At: ", playerMoney, "$")
-
-                    #breaks out of the current round
-                    break
-            else:
-                print("The Dealer Stood At 17")
-                time.sleep(1.5)
         #stands if the dealer is inbetween 18 and 20
-        elif dealerTotal >= 18 and dealerTotal <= 20:
+        elif dealerTotal >= 17 and dealerTotal <= 20:
             print("The Dealer Stood At ", dealerTotal)
             dealerStand = True
             time.sleep(1.5)
         #if the dealer gets black
+
         elif dealerTotal == 21:
             print("The Dealer Got Black Jack")
 
@@ -151,8 +129,9 @@ while(playerMoney > 0):
             print("The Dealer Busted")
             time.sleep(1.5)
             print("You Win")
-            playerMoney = playerMoney + bet*2 + bet
+            playerMoney = playerMoney + bet
             print("You Are Now At: ", playerMoney, "$")
+            break
 
     #################################################################################Player Hand Logic#############################################################################################
     #adds 2 default cards to the players hand
@@ -171,7 +150,7 @@ while(playerMoney > 0):
         for x in playerHand:
 
             if x == "A":
-                if playerTotal >= 10:
+                if playerTotal <= 10:
                     playerTotal += 11
                 else:
                     playerTotal += 1
@@ -186,44 +165,52 @@ while(playerMoney > 0):
     totalPlayerHand()
     print("Your Total: ", playerTotal)
 
-    while(playerTotal < 21 and playerStand == False):
-            while errorCheck2 == True:
-                try:
-                    #gives the user to option to hit or stand
-                    print("press 1 to hit")
-                    print("press 2 to Stand")
-                    playerAction = int(input("Action to preform:\n"))
-                    if playerAction == 1:
-                        #if the player hit
-                        playerHand.append(deck[0])#add a card
-                        deck.remove(deck[0])#remove cards from deck
-                        playermoney = playerMoney + bet*2 + bet #adds money
-                        print(playerHand)
-                        totalPlayerHand()
-                        print("Your Total is now",playerTotal)
-                        #checks if you busted
-                        if playerTotal > 21:
-                            print("You Busted!")
-                            print("Dealer Wins!")
-                            break
-                        errorCheck2 = False
+    while(playerTotal < 21 and playerStand == False and dealerTotal <= 21):
+        #gives the user to option to hit or stand
+        print("press 1 to hit")
+        print("press 2 to Stand")
+        playerAction = int(input("Action to perform:\n"))
+        if playerAction == 1:
+            #if the player hit
+            playerHand.append(deck[0])#add a card
+            deck.remove(deck[0])#remove cards from deck
+            playermoney = playerMoney + bet #adds money
+            print(playerHand)
+            totalPlayerHand()
+            print("Your Total is now",playerTotal)
+            #checks if you busted
+            if playerTotal > 21:
+                print("You Busted!")
+                print("Dealer Wins!")
+                playerMoney = playerMoney - bet
+                print(playerMoney)
+                break
+            #errorCheck2 = False
 
-                    elif playerAction == 2:
-                        if(dealerTotal > playerTotal and dealerTotal >= 21):
-                            #checks when you stand and compares your scode to the dealers
-                            print("You Lose")
-                            #adds money and sets player stant to true to pull it out of loop
-                            playerMoney = playerMoney - bet
-                            playerStand = True
-                            print("You Stood With: ", playerHand)
-                        errorCheck2 = False
-                        #sets error to false so it oulls out of loop
-                        break
-                    else:
-                        #loops it if the user inputs a number larger than 2
-                        errorCheck2 = True
-                        print("Please enter an number between 1 and 2")
-                except:
-                    #catches the users input and runs loops the code a prints the error msg
-                    print("Please enter 1 or 2")
-                    errorCheck2 = True
+        elif playerAction == 2:
+
+            if(dealerTotal > playerTotal and dealerTotal <= 21):
+                #checks when you stand and compares your scode to the dealers
+                print("You Lose")
+                #adds money and sets player stant to true to pull it out of loop
+                playerMoney = playerMoney - bet
+                playerStand = True
+                print("You Stood With: ", playerHand)
+                errorCheck2 = False
+                #sets error to false so it oulls out of loop
+                break
+
+            #If both players have same score, game pushes no money is won
+            elif(dealerTotal == playerTotal and dealerTotal <= 21 and playerTotal <= 21):
+                print("PUSH!")
+                print("Updated Total: ", playerMoney)
+                break
+
+            #This code determines who wins the round
+            if(playerTotal > dealerTotal and playerTotal <= 21):
+                print("YOU WIN!")
+                playerMoney = playerMoney + bet*2
+                print("Updated Total: ", playerMoney)
+                break
+                
+            
