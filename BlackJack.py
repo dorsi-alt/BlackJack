@@ -213,5 +213,4 @@ while(playerMoney > 0):
                 playerMoney = playerMoney + bet
                 print("Updated Total: ", playerMoney)
                 break
-                
             
