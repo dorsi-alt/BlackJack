@@ -37,9 +37,10 @@ while(playerMoney > 0):
             print("Total:", playerMoney, "$")
             bet = int(input("how much would you like to bet\n"))
             if(playerMoney <= bet):
-                playerMoney = 0
+                bet = playermoney 
                 print("ALL IN!")
                 print("Total Is Now: 0$")
+                print("Total Is Now:", playerMoney - bet)
             else:
                 print("Total Is Now:", playerMoney - bet)
             errorCheck = False
@@ -110,7 +111,7 @@ while(playerMoney > 0):
                 time.sleep(1.5)
                 print("You Win")
                 #gives you money
-                playerMoney = playerMoney + bet*2
+                playerMoney = playerMoney + bet
                 #breaks out of the current round
                 print("You Are Now At: ", playerMoney, "$")
                 break
@@ -209,7 +210,7 @@ while(playerMoney > 0):
             #This code determines who wins the round
             if(playerTotal > dealerTotal and playerTotal <= 21):
                 print("YOU WIN!")
-                playerMoney = playerMoney + bet*2
+                playerMoney = playerMoney + bet
                 print("Updated Total: ", playerMoney)
                 break
                 
